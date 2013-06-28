@@ -1,0 +1,399 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: "minecraftia";
+	src: url('../fonts/Minecraftia.ttf');
+}
+
+*{
+	font-family: minecraftia;
+	color:rgba(10,150,245,1);
+	background-color: #FFF;
+	font-weight: 100;
+	text-align: center;
+}
+
+#wrapper {
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+}
+
+#container {
+	width:600px;
+	height: 400px;
+	margin: auto;
+	position: relative;
+	padding: 10px 10px 10px 30px;
+	border: 3px solid rgba(10, 150, 245, 1);
+	box-shadow: 0px 0px 15px rgba(10, 150, 245, .75);
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px;
+}
+
+.spacer {
+	height: 25px;
+	width: 100%;
+}
+
+#client-system-header {
+	text-align: center;
+}
+
+#register-form {
+	width: 300px;
+	position: relative;
+	float: left;
+}	
+
+#login-form {
+	width: 300px;
+	height: auto;
+	position: relative;
+	float: right
+}
+
+input::-webkit-input-placeholder{
+	text-align: center;
+}
+input::-moz-placeholder{
+	text-align: center;
+}
+input:-moz-placeholder{
+	text-align: center;		
+}
+input:-ms-input-placeholder{
+	text-align: center;		
+}
+
+input:required:focus:invalid {
+	border: 2px solid rgba(225, 15, 15, 1);
+	background-color: rgba(225, 15, 15, .1);
+	margin-left: -1px;
+}
+
+input:required:focus:valid {
+	border: 2px solid rgba(15,240,60,1);
+	background-color: rgba(15,240,60,.2);
+	margin-left: -1px;
+}
+
+input:required:invalid {
+	border: 1px solid rgba(225, 15, 15, 1);
+	background-color: rgba(225, 15, 15, .1);
+}
+
+input:required:valid {
+	border: 1px solid rgba(15,240,60,1);
+	background-color: rgba(15,240,60,.2);
+}
+
+.client-register-input {
+	width: 296px;
+	height: 30px;
+	text-align: center;
+	outline: none;
+	margin-bottom: 5px;
+}
+
+.client-login-input {
+	width: 246px;
+	height: 25px;
+	text-align: center;
+	
+}
+
+#register-fname {
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 0px;
+	-moz-border-radius-bottomright: 0px;
+}
+#register-lname {
+	
+}
+#register-email {
+	
+}
+#register-zipcode {
+	
+}
+#register-password {
+	
+}
+#register-passwordconfirm {
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 0px;
+}
+#register-submit {
+	outline: none;
+	border: 1px solid rgba(10, 150, 245, 1);
+	width: 200px;
+	height: 45px;
+	background-color: rgba(10,150,245,0.15);
+	position: relative;
+	font-size: small;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px;
+}
+
+#register-submit:hover {
+	border: 2px solid rgba(10, 150, 245, 1);
+	background-color: rgba(10,150,245,0.25);
+}
+
+#register-submit:active {
+	background-color: rgba(10,150,245,0.5);
+}
+
+#login-username {
+	width: 246px;
+	height: 30px;
+	position: relative;
+	display: block;
+	margin: 0px auto;
+	outline: none;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 0px;
+	-moz-border-radius-bottomright: 0px;
+}
+#login-password {
+	width: 246px;
+	height: 30px;
+	display: block;
+	position: relative;
+	margin: 0px auto;
+	margin-top: -20px;
+	outline: none;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 0px;
+}
+#login-submit {
+	outline: none;
+	border: 1px solid rgba(10, 150, 245, 1);
+	width: 200px;
+	height: 40px;
+	background-color: rgba(10,150,245,0.15);
+	position: relative;
+	display: block;
+	margin: 0px auto;
+	margin-top: -20px;
+	font-size: small;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px; 
+}
+
+#login-submit:hover {
+	border: 2px solid rgba(10, 150, 245, 1);
+	background-color: rgba(10,150,245,0.25);
+}
+
+#login-submit:active {
+	background-color: rgba(10,150,245,0.5);
+}
+
+#registration-text {
+	width: 200px;
+	text-align: center;
+	margin: auto;
+	display: block;
+	font-size: 11px;
+}
+#login-text {
+	width: 300px;
+	text-align: center;
+	margin: auto;
+	display: block;
+	font-size: 11px;
+}
+
+#modal-bg {
+	opacity: .5;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 10;
+}
+
+#modal-wrapper {
+	width: 475px;
+	height: 250px;
+	position: relative;
+	top: -400px;
+	left: auto;
+	margin: auto;
+	z-index: 15;
+}
+
+#modal-message {
+	width: 471px;
+	height: 250px;
+	margin: auto;
+	position: relative;
+	background: #000;
+	opacity: .9;
+	border: 2px solid rgba(10,150,245,.75);
+	box-shadow: 1px 1px 5px rgba(10,150,245,0.5);
+}
+
+#modal-message-header {
+	font-size: large;
+	text-align: center;
+	width: 100%;
+	height: 50px;
+	display: inline-block;
+	background: #000;
+	position: relative;
+}
+#modal-message-text {
+	font-size: small;
+	text-align: center;
+	width: 100%;
+	height: 150px;
+	display: inline-block;
+	background: #000;
+	position: relative;	
+}
+
+#modal-dismiss-button {
+	outline: none;
+	border: 1px solid rgba(10, 150, 245, 1);
+	width: 125px;
+	height: 25px;
+	background-color: rgba(10,150,245,0.15);
+	position: relative;
+	display: block;
+	margin: auto;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px; 
+}
+
+#modal-dismiss-button:hover {
+	border: 2px solid rgba(10, 150, 245, 1);
+	background-color: rgba(10,150,245,0.25);
+}
+
+#modal-dismiss-button:active {
+	background-color: rgba(10,150,245,0.5);
+}
+
+h3.modal {
+	background: rgba(0,0,0,0);
+}
+
+.admin-login-input {
+	width: 400px;
+	height: 50px;
+	outline: none;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#admin-form {
+margin-left: -20px;
+}
+
+#admin-username{
+	position: relative;
+	display: block;
+	margin: 0px auto;
+	outline: none;
+	font-size: larger;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 0px;
+	-moz-border-radius-bottomright: 0px;
+}
+
+#admin-password {
+	display: block;
+	position: relative;
+	margin: 0px auto;
+	margin-top: -20px;
+	outline: none;
+	font-size:larger;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 0px;
+}
+
+#admin-login {
+	outline: none;
+	border: 1px solid rgba(10, 150, 245, 1);
+	background-color: rgba(10,150,245,0.15);
+	position: relative;
+	display: block;
+	margin: 0px auto;
+	margin-top: -15px;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px;
+}
