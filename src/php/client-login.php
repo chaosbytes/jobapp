@@ -13,15 +13,15 @@ if (isset($_POST['login']) && $_POST['login']) {
 				if ($result->num_rows == 1) {
 					session_name("jobappclient");
 					session_start();
-					echo json_encode(array("status"=>true,"success"=>"Login Success","message"=>"You Have Been Logged In Successfully."));
+					echo json_encode(array("status"=>true, "success"=>"Login Success", "message"=>"You Have Been Logged In Successfully."));
+					$link->close();
 					die;
 				} else {
-					echo json_encode(array("status" => false, "error"=> "Username Not Found", "message"=>"The username you supplied is not in our system, Please register before trying to login."));
+					echo json_encode(array("status" => false, "error"=> "Username or Password Incorrect", "message" => "The username or password you supplied was not valid. Please try again."));
+					$link->close();
+					die;
 				}
-			} else {
-				echo json_encode(array("status" => false, "error" => "Username or Password Incorrect", "message" => "The username or password you supplied was not valid. Please try again."));
 			}
 		}
-	$link->close();
 }
 ?>

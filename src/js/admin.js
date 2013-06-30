@@ -37,7 +37,7 @@ $(document).ready(function() {
 			success: function(data) {
 				var json = JSON.stringify(data);
 				json = JSON.parse(json);
-				json = $.parseJSON(json);
+				json = jQuery.parseJSON(json);
 				if (json.status) {
 					displayModal(json.success, json.message, "./js/admin-login-modal-code.js");
 					$.post("./admin-panel.html", function(html) {

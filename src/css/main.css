@@ -294,11 +294,12 @@ input:required:valid {
 #modal-message-text {
 	font-size: small;
 	text-align: center;
-	width: 100%;
+	width: 445px;
 	height: 150px;
 	display: inline-block;
 	background: #000;
 	position: relative;	
+	padding: 0px 10px;
 }
 
 #modal-dismiss-button {

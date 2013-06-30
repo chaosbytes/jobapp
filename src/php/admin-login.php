@@ -17,14 +17,14 @@ if (isset($_POST['login']) && $_POST['login']) {
 					$_SESSION['username'] = $username;
 					$_SESSION['passwordhash'] = $passwordhash;
 					echo json_encode(array("status"=>true,"success"=>"Admin Login Success","message"=>"You Have Been Logged into the Admin Panel Successfully."));
+					$link->close();
 					die;
 				} else {
 					echo json_encode(array("status" => false, "error"=> "Admin Username or Password Incorrect", "message" => "The admin username or password you supplied was not valid. Please try again."));
+					$link->close();
+					die;
 				}
-			} else {
-				echo json_encode(array("status" => false, "error" => "Admin Username Not Found", "message"=>"The admin username you supplied is not in our system, Please contact your system administrator for access."));
 			}
 		}
-	$link->close();
 }
 ?>
