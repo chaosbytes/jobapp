@@ -18,9 +18,9 @@ $(document).ready(function () {
 				json = JSON.parse(json);
 				json = $.parseJSON(json);
 				if (json.status) {
-					displayModal(json.success, json.message, "./js/register-modal-code.js");
+					displayModal(json.success, json.message, "./js/client-register-modal-code.js");
 				} else if (!json.status) {
-					displayModal(json.error, json.message, "./js/register-modal-code.js");
+					displayModal(json.error, json.message, "./js/client-register-modal-code.js");
 				}
 			},
 			error: function (jqXHR) {

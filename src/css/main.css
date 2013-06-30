@@ -25,7 +25,7 @@
 	height: 400px;
 	margin: auto;
 	position: relative;
-	padding: 10px 10px 10px 30px;
+	padding: 10px 10px 10px 10px;
 	border: 3px solid rgba(10, 150, 245, 1);
 	box-shadow: 0px 0px 15px rgba(10, 150, 245, .75);
 	border-top-left-radius: 25px 50px;
@@ -342,10 +342,6 @@ h3.modal {
 	margin-bottom: 10px;
 }
 
-#admin-form {
-margin-left: -20px;
-}
-
 #admin-username{
 	position: relative;
 	display: block;
@@ -387,6 +383,7 @@ margin-left: -20px;
 	display: block;
 	margin: 0px auto;
 	margin-top: -15px;
+	font-size: medium;
 	border-top-left-radius: 25px 50px;
 	border-top-right-radius: 25px 50px;
 	border-bottom-left-radius: 25px 50px;
@@ -396,4 +393,93 @@ margin-left: -20px;
 	-moz-border-radius-topright: 25px 50px;
 	-moz-border-radius-bottomleft: 25px 50px;
 	-moz-border-radius-bottomright: 25px 50px;
+}
+
+#admin-login:hover {
+	border: 2px solid rgba(10, 150, 245, 1);
+	background-color: rgba(10,150,245,0.25);
+}
+
+#admin-login:active {
+	background-color: rgba(10,150,245,0.5);
+}
+
+#admin-table {
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+	border: 1px solid rgba(10, 150, 245, 1);
+}
+
+thead#admin-table-header {
+	font-size: small;
+	border: 1px solid rgba(10, 150, 245, 1);
+}
+
+
+#admin-table-body {
+	font-size: x-small;
+	border: 1px solid rgba(10, 150, 245, 1);
+}
+
+tr.admin {
+	border: 1px solid rgba(10, 150, 245, 1);
+}
+
+.admin-delete-button {
+	outline: none;
+	border: 1px solid rgba(10, 150, 245, 1);
+	width: 50px;
+	height: 20px;
+	background-color: rgba(10,150,245,0.15);
+	position: relative;
+	display: block;
+	margin: auto;
+	font-size: xx-small;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px; 
+}
+
+.admin-delete-button:hover {
+	border: 2px solid rgba(10, 150, 245, 1);
+	background-color: rgba(10,150,245,0.25);
+}
+
+.admin-delete-button:active {
+	background-color: rgba(10,150,245,0.5);
+}
+
+#admin-logout {
+	outline: none;
+	border: 1px solid rgba(255,40,55,1);
+	width: 75px;
+	height: 25px;
+	background-color: rgba(255,40,55,.15);
+	position: relative;
+	display: block;
+	margin: auto 400px 10px auto;
+	font-size: xx-small;
+	border-top-left-radius: 25px 50px;
+	border-top-right-radius: 25px 50px;
+	border-bottom-left-radius: 25px 50px;
+	border-bottom-right-radius: 25px 50px;
+
+	-moz-border-radius-topleft: 25px 50px;
+	-moz-border-radius-topright: 25px 50px;
+	-moz-border-radius-bottomleft: 25px 50px;
+	-moz-border-radius-bottomright: 25px 50px; 
+}
+#admin-logout:hover {
+	border: 2px solid rgba(255,40,55,1);
+	background-color: rgba(255,40,55,.25);
+}
+#admin-logout:active {
+	background-color: rgba(255,40,55,.5);
 }
