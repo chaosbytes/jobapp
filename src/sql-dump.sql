@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 28, 2013 at 04:05 PM
+-- Generation Time: Jun 30, 2013 at 02:51 PM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
@@ -23,10 +23,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `admins` (
   `id` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `username` varchar(25) COLLATE utf8_bin NOT NULL,
-  `password` varchar(25) COLLATE utf8_bin NOT NULL,
+  `passwordhash` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `username`, `passwordhash`) VALUES
+(001, 'riceje7', '65560d02bf2f5e6d6b3ea258ecd24d98');
 
 -- --------------------------------------------------------
 
@@ -44,11 +51,8 @@ CREATE TABLE `clients` (
   `passwordhash` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=114 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=127 ;
 
---
--- Dumping data for table `clients`
---
 
 INSERT INTO `clients` (`id`, `username`, `fname`, `lname`, `email`, `zipcode`, `passwordhash`) VALUES
 (108, 'joe.rice', 'Joe', 'Rice', 'riceje7@gmail.com', '18104', '65560d02bf2f5e6d6b3ea258ecd24d98'),
