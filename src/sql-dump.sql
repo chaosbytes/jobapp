@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.5.7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 30, 2013 at 02:51 PM
--- Server version: 5.5.25
--- PHP Version: 5.4.4
+-- Generation Time: Jul 01, 2013 at 12:56 PM
+-- Server version: 5.5.29
+-- PHP Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -13,7 +13,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `jobapp`
 --
-
+CREATE DATABASE `jobapp` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `jobapp`;
+ 
 -- --------------------------------------------------------
 
 --
@@ -51,13 +53,14 @@ CREATE TABLE `clients` (
   `passwordhash` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=127 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=139 ;
 
+--
+-- Dumping data for table `clients`
+--
 
 INSERT INTO `clients` (`id`, `username`, `fname`, `lname`, `email`, `zipcode`, `passwordhash`) VALUES
 (108, 'joe.rice', 'Joe', 'Rice', 'riceje7@gmail.com', '18104', '65560d02bf2f5e6d6b3ea258ecd24d98'),
 (109, 'ariana.colom', 'Ariana', 'Colom', 'aecolom@gmail.com', '18104', '65560d02bf2f5e6d6b3ea258ecd24d98'),
-(110, 'diane.colom', 'Diane', 'Colom', 'riceje7@gmail.com', '18104', '65560d02bf2f5e6d6b3ea258ecd24d98'),
-(111, 'ervev.rverv', 'ervev', 'rverv', 'ervr@rr.com', '22823', '3dbe00a167653a1aaee01d93e77e730e'),
-(112, 'weffwe.efwfw', 'weffwe', 'efwfw', 'wef@wefw.com', '12212', '3dbe00a167653a1aaee01d93e77e730e'),
-(113, 'wefwwv.wecwec', 'WEFwwv', 'wecwec', 'wefwe@ee.com', '22222', '3dbe00a167653a1aaee01d93e77e730e');
+(135, '1', 'Joe', 'Rice', 'joe.rice7@icloud.com', '18104', '65560d02bf2f5e6d6b3ea258ecd24d98'),
+(138, 'ariana.colom1', 'Ariana', 'Colom', 'aecotton37@yahoo.com', '18104', '65560d02bf2f5e6d6b3ea258ecd24d98');
