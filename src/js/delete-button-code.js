@@ -1,5 +1,8 @@
+// click handler for the admin delete buttons to delete clients from db
 $('.admin-delete-button').click(function() {
+	// assign this element to 'that' variable for later reference
 	var that = $(this);
+	// make ajax POST request to admin-delete.php to delete user from db
 	$.ajax({
 		type: "POST",
 		data: {
@@ -7,25 +10,21 @@ $('.admin-delete-button').click(function() {
 		},
 		url: "./php/admin-delete.php",
 		success: function(data) {
+			//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
 			var json = JSON.stringify(data);
 			json = JSON.parse(json);
 			json = $.parseJSON(json);
 			if (json.status) {
-				console.log(that);
+				// if deletion from db was successful remove the row from table by accessing the grandparent node of 'that' (assigned above) and getting the table row index
 				var i=that[0].parentNode.parentNode.rowIndex;
+				// then actually delete it
 				document.getElementById('admin-table').deleteRow(i);
-				//displayModal(json.success, json.message, "./js/delete-user-modal-code.js");
+				
+				//display modal confirming deletion, commented out because it seemed too redundant from an end user perspective, as the row is removed from the table above
+				//displayModal(json.success, json.message, "./js/modal-dismiss-code.js");
 			} else if (!json.status) {
-				displayModal(json.error, json.message, "./js/delete-user-modal-code.js");
+				displayModal(json.error, json.message, "./js/modal-dismiss-code.js");
 			}
 		}
 	});
 });
-
-function displayModal(header, message, scriptSrc) {
-	$('#wrapper').append("<div id='modal-bg'></div><div id='modal-wrapper'><div id='modal-message'><div id='modal-message-header'>" + header + "</div><div id='modal-message-text'>" + message + "</div><button id='modal-dismiss-button'>Dismiss</button></div></div>");
-	var script = document.createElement("script");
-	script.type = "text/javascript";
-	script.src = scriptSrc;
-	$('#wrapper').append(script);
-}	
