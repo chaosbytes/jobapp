@@ -32,7 +32,7 @@ if (!$link->ping()) {
 			// add empty row so even if there are no clients in the db a blank table will show up, without this the table will not load properly when insertd in the DOM
 			$html = $html."<tr></tr>";
 			// iterate over $results and build rows concatinating them to $html 
-			while ($row = $results->fetch_row()) {\
+			while ($row = $results->fetch_row()) {
 				// open the row and assign it an id of $row[0] which is the client username
 				$html = $html."<tr id='".$row[0]."'>";
 				for ($i = 0; $i < count($row)+1; $i++) {
