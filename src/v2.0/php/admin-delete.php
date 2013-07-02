@@ -2,7 +2,6 @@
 // admin-delete is used to delete clients from the clients table in the db
 //require php script to connect to MySQL
 require "connect.php";
-require "sendmail.php";
 // open a link to MySQL
 $link = connect();
 // if the link has no connection echo an error response
@@ -17,7 +16,7 @@ if (!$link->ping()) {
 			// query the clients table in db with mysqli method
 			if ($link->query($sql)) {
 				// if there was 1 row affected by the query echo success response
-				if($link->affected_rows == 1 && json_decode(sendMail("riceje7@gmail.com", "Joe Rice", "Account Deleted", "This email is to inform you that your client level account with username: ".$username.", has been deleted."))){
+				if($link->affected_rows == 1){
 						echo json_encode(array("status"=> true, "success"=>"User Deleted", "message"=>"The user ".$username." has been deleted from the system."));
 				} else {
 					// else echo and error response
