@@ -2,7 +2,7 @@
 // connect.php - houses connect function for connecting to MySQL through mysqli
 function connect() {
 	//create new mysqli link
-	$link = new mysqli('localhost', 'root', 'aecolomjerice1024!', "jobapp");
+	$link = new mysqli('localhost', 'root', 'aecolomjerice1024!', "jobapp_v2");
 	// if there was an error
 	if ($link->connect_errno) {
 		//echo error response

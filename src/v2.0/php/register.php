@@ -2,6 +2,7 @@
 // register.php - used to register a new client
 // require connect.php to connect to MySQL
 require "connect.php";
+require "sendmail.php";
 // if register isset in $_POST array and is true
 if (isset($_POST['register']) && $_POST["register"]) {
 	// if the password and passwordconfirm are the same value

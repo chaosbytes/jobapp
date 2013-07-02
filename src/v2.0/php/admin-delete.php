@@ -17,10 +17,8 @@ if (!$link->ping()) {
 			// query the clients table in db with mysqli method
 			if ($link->query($sql)) {
 				// if there was 1 row affected by the query echo success response
-				if($link->affected_rows == 1){
-					if(json_decode(sendMail("riceje7@gmail.com", "Joe Rice", "Test Subject", "Test Body"))){
+				if($link->affected_rows == 1 && json_decode(sendMail("riceje7@gmail.com", "Joe Rice", "Account Deleted", "This email is to inform you that your client level account with username: ".$username.", has been deleted."))){
 						echo json_encode(array("status"=> true, "success"=>"User Deleted", "message"=>"The user ".$username." has been deleted from the system."));
-					}
 				} else {
 					// else echo and error response
 					echo json_encode(array("status"=> false, "error"=>"No User Deleted", "message"=>"The user you tried to delete was not in the system, or there was an error."));

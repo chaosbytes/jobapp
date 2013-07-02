@@ -7,7 +7,7 @@ function sendMail($toAddress, $toName, $subject, $body){
 	$mail->IsSMTP();
 	$mail->Host = "mail.jobapp.foursquaregames.com";
 	$mail->SMTPAuth = true;
-	$mail->Username = "admin@jobapp.foursquaregames.com";
+	$mail->Username = "noreply@jobapp.foursquaregames.com";
 	$mail->Password = "aecolomjerice1024!";
 	
 	$mail->From = "noreply@jobapp.foursquaregames.com";
