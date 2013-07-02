@@ -21,7 +21,7 @@ function sendMail($toAddress, $toName, $subject, $body){
 	if(!$mail->Send()){
 		echo json_encode(array("status"=>false, "error"=> $mail->ErrorInfo));
 	} else {
-		echo json_encode(array("status"=>true));
+		echo json_encode(array("status"=>true ));
 	}
 }
 
