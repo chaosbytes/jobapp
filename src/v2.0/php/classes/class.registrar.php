@@ -47,7 +47,7 @@ class Registrar {
 			$this->errors[] = "Email Field Empty";
 		} elseif (strlen($this->post['email']) > 96) {
 			$this->errors[] = "Email cannot be longer than 96 characters";
-		} elseif (!filter_var($this->post['user_email'], FILTER_VALIDATE_EMAIL)) {
+		} elseif (!filter_var($this->post['email'], FILTER_VALIDATE_EMAIL)) {
 			$this->errors[] = "Your email address is not in a valid email format";
 		} elseif (empty($this->post['zip_code'])) {
 			$this->errors[] = "Zip Code Field Empty";
@@ -61,19 +61,19 @@ class Registrar {
 			$this->errors[] = "Password must be a minimum length of 6 characters";
 		} elseif (!empty($this->post['first_name'])
 			&& !empty($this->post['last_name'])
-			&& !empty($this->post['user_email'])
-			&& strlen($this->post['user_email']) <= 96
-			&& filter_var($this->post['user_email'], FILTER_VALIDATE_EMAIL)
+			&& !empty($this->post['email'])
+			&& strlen($this->post['email']) <= 96
+			&& filter_var($this->post['email'], FILTER_VALIDATE_EMAIL)
 			&& !empty($this->post['zip_code'])
 			&& preg_match('/(\d{5}([\-]\d{4})?)/', $this->post['zip_code'])
 			&& !empty($this->post['password'])
 			&& !empty($this->post['password_confirm'])
 			&& ($this->post['password'] === $this->post['password_confirm'])) {
 
-			$this->link = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
 
 			// if no connection errors (= working database connection)
-			if (!$this->db_connection->connect_errno) {
+			if (!$this->link->connect_errno) {
 				//escape all user input
 				$this->first_name =  $this->link->real_escape_string(htmlentities($this->post['first_name'], ENT_QUOTES));
 				$this->last_name =  $this->link->real_escape_string(htmlentities($this->post['last_name'], ENT_QUOTES));
