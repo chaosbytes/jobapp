@@ -17,7 +17,7 @@ $(document).ready(function () {
 			success: function (data) {
 			//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
 				var json = JSON.stringify(data);
-				json = JSON.parse(json);
+				json = JSON.parse(json);  
 				json = $.parseJSON(json);
 				if (json.status) {
 					// if registration is a success display success modal and clear form on modal dismissal

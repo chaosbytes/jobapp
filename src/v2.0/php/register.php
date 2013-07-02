@@ -2,6 +2,7 @@
 // register.php - used to register a new client
 // require connect.php to connect to MySQL
 require "connect.php";
+require "sendmail.php";
 // if register isset in $_POST array and is true
 if (isset($_POST['register']) && $_POST["register"]) {
 	// if the password and passwordconfirm are the same value
@@ -20,6 +21,7 @@ if (isset($_POST['register']) && $_POST["register"]) {
 	} else {
 	 	// else if passwords don't match echo error response
 		echo json_encode(array("status"=> false, "error"=> "Password Mismatch", "message"=> "Passwords Do Not Match, Please Try Again."));
+		die;
 	}
 }
 // insertNewUser() inserts a user into the the clients table in the db
@@ -30,6 +32,7 @@ function insertNewUser($_username, $_fname, $_lname, $_email, $_zipcode, $_passw
 	if (!$link->ping()) {
 		// echo error response
 		echo json_encode(array("status"=>false, "error"=>json_decode($link)->error));
+		die;
 	} else if ($link) {
 			// else if link is valid
 			
@@ -62,6 +65,7 @@ function insertNewUser($_username, $_fname, $_lname, $_email, $_zipcode, $_passw
 				// if bool is true echo error response
 				if ($duplicateEmail) {
 					echo json_encode(array("status"=> false, "error"=>"Duplicate Entry", "message"=> "You have already registered with our system, please use the login form."));
+					die;
 				} else {
 					//else get count of matching emails and append that number to the username and try insertion again
 					$count = $results->num_rows;
