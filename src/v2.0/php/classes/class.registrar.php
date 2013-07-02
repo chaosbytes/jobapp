@@ -22,13 +22,15 @@ class Registrar {
 
 	public $errors = array();
 	public $messages = array();
+	
+	public $registered = false;
 
 	private $post = array();
 
 	public function __construct($_post) {
 		if ($_post) {
 			$this->post = $_post;
-			if ($this->post["register"]) {
+			if (isset($this->post["register"])) {
 				$this->registerNewClient();
 			}
 		} else if (isset($_GET["email"]) && isset($_GET["activation_code"])) {
@@ -117,7 +119,13 @@ class Registrar {
 	private function insertNewClient($_link, $_user_name, $_first_name, $_last_name, $_email, $_zip_code, $_password_hash, $_activation_hash) {
 		$insert_query = $_link->query("INSERT INTO clients (user_name, first_name, last_name, email, zip_code, password_hash, activation_hash) VALUES ('".$_user_name."', '".$_first_name."', '".$_last_name."', '".$_email."', '".$_zip_code."', '".$_password_hash."', '".$_activation_hash."');");
 		if ($insert_query) {
-			$this->sendActivationEmail();
+			if($this->sendActivationEmail()){
+				$this->messages[] = "Your client account has been created successfully. You have been sent an activation email, click the link within that email to activate your account and login.";
+				$this->registered = true;
+			} else {
+				$this->link->query("DELETE FROM clients WHERE id='".$this->link->insert_id."';");
+				$this->errors[] = "Activation email could not be sent, your client account has not been created.";
+			}
 		} else {
 			$this->errors[] = "There was an error during registration, please try again.";
 		}
