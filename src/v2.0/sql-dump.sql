@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 02, 2013 at 08:15 PM
+-- Generation Time: Jul 03, 2013 at 04:48 PM
 -- Server version: 5.5.29
--- PHP Version: 5.4.10
+-- PHP Version: 5.3.20
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -85,15 +85,22 @@ CREATE TABLE `admins` (
 
 CREATE TABLE `clients` (
   `id` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) COLLATE utf8_bin NOT NULL,
-  `fname` varchar(25) COLLATE utf8_bin NOT NULL,
-  `lname` varchar(25) COLLATE utf8_bin NOT NULL,
+  `user_name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `first_name` varchar(25) COLLATE utf8_bin NOT NULL,
+  `last_name` varchar(25) COLLATE utf8_bin NOT NULL,
   `email` varchar(50) COLLATE utf8_bin NOT NULL,
-  `zipcode` varchar(10) COLLATE utf8_bin NOT NULL,
-  `passwordhash` varchar(50) COLLATE utf8_bin NOT NULL,
+  `zip_code` varchar(10) COLLATE utf8_bin NOT NULL,
+  `password_hash` varchar(50) COLLATE utf8_bin NOT NULL,
   `activation_hash` varchar(50) COLLATE utf8_bin NOT NULL,
   `password_reset_hash` varchar(50) COLLATE utf8_bin NOT NULL,
-  `password_reset_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `password_reset_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+  UNIQUE KEY `username` (`user_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `user_name`, `first_name`, `last_name`, `email`, `zip_code`, `password_hash`, `activation_hash`, `password_reset_hash`, `password_reset_timestamp`) VALUES
+(001, 'Joe.Rice', 'Joe', 'Rice', 'riceje7@gmail.com', '18104', '16384$8$1$df646a4d7db91202$a2682b25de51418c27e69f9', '10c67f02f1b78f9a9d60ce93acae0beb4a81c625', '', '2013-07-03 20:46:02');

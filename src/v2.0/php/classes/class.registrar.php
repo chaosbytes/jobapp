@@ -22,7 +22,7 @@ class Registrar {
 
 	public $errors = array();
 	public $messages = array();
-	
+
 	public $registered = false;
 
 	private $post = array();
@@ -107,6 +107,8 @@ class Registrar {
 						$this->user_name = $this->user_name.$count;
 						$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_hash, $this->activation_hash);
 					}
+				} else {
+					$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_hash, $this->activation_hash);
 				}
 			} else {
 				$this->errors[] = "Sorry, no database connection.";
@@ -119,7 +121,7 @@ class Registrar {
 	private function insertNewClient($_link, $_user_name, $_first_name, $_last_name, $_email, $_zip_code, $_password_hash, $_activation_hash) {
 		$insert_query = $_link->query("INSERT INTO clients (user_name, first_name, last_name, email, zip_code, password_hash, activation_hash) VALUES ('".$_user_name."', '".$_first_name."', '".$_last_name."', '".$_email."', '".$_zip_code."', '".$_password_hash."', '".$_activation_hash."');");
 		if ($insert_query) {
-			if($this->sendActivationEmail()){
+			if ($this->sendActivationEmail()) {
 				$this->messages[] = "Your client account has been created successfully. You have been sent an activation email, click the link within that email to activate your account and login.";
 				$this->registered = true;
 			} else {
