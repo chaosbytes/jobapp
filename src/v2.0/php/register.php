@@ -13,12 +13,14 @@ if ($registration->registered) {
 	foreach ($registration->messages as $message) {
 		$messages = $messages.$message."<br/>";
 	}
-	echo json_encode(array("status"=> true, "success"=> "Registration Successful", "message"=>$messages));
+	$json = '{"status": true, "success":"Registration Successful", "message":"'.$messages.'"}';
+	echo $json;
 } else if (!$registration->registered) {
 		$errors = "";
 		foreach ($registration->errors as $error) {
 			$errors = $errors.$error."<br/>";
 		}
-		echo json_encode(array("status"=> false, "error"=> "An Error Occurred", "message"=>$errors));
+		$json = "{'status': false, 'error':'An Error Occurred', 'message':".$errors."}";
+		echo $json;
 	}
 ?> 

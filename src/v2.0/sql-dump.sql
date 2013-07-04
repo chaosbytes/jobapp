@@ -13,7 +13,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `jobapp_v1`
 --
-CREATE DATABASE `jobapp_v1` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+-- CREATE DATABASE `jobapp_v1` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `jobapp_v1`;
 
 -- --------------------------------------------------------
@@ -60,7 +60,7 @@ INSERT INTO `clients` (`id`, `username`, `fname`, `lname`, `email`, `zipcode`, `
 --
 -- Database: `jobapp_v2`
 --
-CREATE DATABASE `jobapp_v2` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+-- CREATE DATABASE `jobapp_v2` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `jobapp_v2`;
 
 -- --------------------------------------------------------

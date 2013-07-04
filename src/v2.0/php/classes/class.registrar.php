@@ -11,7 +11,6 @@ require_once "scrypt.php";
 class Registrar {
 
 	private $link = null;
-	private $user_name = "";
 	private $first_name = "";
 	private $last_name = "";
 	private $email = "";
@@ -82,36 +81,23 @@ class Registrar {
 				$this->zip_code =  $this->link->real_escape_string(htmlentities($this->post['zip_code'], ENT_QUOTES));
 				$this->password =  $this->link->real_escape_string(htmlentities($this->post['password'], ENT_QUOTES));
 
-				$this->user_name = $this->first_name.".".$this->last_name;
-
-				/* hash the password using CRYPT_SHA512, with a salt created by ,
+				/* hash the password using CRYPT_SHA512, with a 16 character salt created using a base64 encoded value from mcrypt_create_iv and MCRYPT_DEV_URANDOM,
 				instead of md5 as md5 is no longer a secure method for hashing passwords. for more info see: http://www.php.net/manual/en/faq.passwords.php#faq.passwords.fasthash
+
+				uses 10,000 rounds of hashing to be more secure than the standard 5000 rounds
 				*/
-				
-				$this->password_salt = mcrypt_create_iv(16, MCRYPT_RAND);
-				$this->password_hash = crypt($this->password, '$6$rounds=10000$'.$salt.'$');
+
+				$this->password_salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+				$this->password_hash = crypt($this->password, '$6$rounds=10000$'.$this->password_salt.'$');
 
 				// create an activation hash for email verification
 				$this->activation_hash = sha1(uniqid(mt_rand(), true));
 
-				$query_user_name = $this->link->query("SELECT * FROM clients WHERE user_name='".$this->user_name."';");
-				if ($query_user_name->num_rows == 1) {
-					$query_email = $this->link->query("SELECT email FROM clients WHERE first_name='".$this->first_name."' AND last_name='".$this->last_name."';");
-					$dup_email = false;
-					while ($email = $query_email->fetch_row()) {
-						if ($email == $this->email) {
-							$dup_email = true;
-							$this->errors[] = "There is already a user registered with those credentials, if you have already registered please use the login form.";
-							break;
-						}
-					}
-					if (!$dup_email) {
-						$count = $query_email->num_rows;
-						$this->user_name = $this->user_name.$count;
-						$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_salt, $this->password_hash, $this->activation_hash);
-					}
+				$query_email = $this->link->query("SELECT * FROM clients WHERE email='".$this->email."';");
+				if ($query_email->num_rows == 1) {
+					$this->errors[] = "There is already a user registered with those credentials, if you have already registered please use the login form.";
 				} else {
-					$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_salt, $this->password_hash, $this->activation_hash);
+					$this->insertNewClient($this->link, $this->email, $this->first_name, $this->last_name, $this->zip_code, $this->password_salt, $this->password_hash, $this->activation_hash);
 				}
 			} else {
 				$this->errors[] = "Sorry, no database connection.";
@@ -121,9 +107,9 @@ class Registrar {
 		}
 	}
 
-	private function insertNewClient($_link, $_user_name, $_first_name, $_last_name, $_email, $_zip_code, $_password_salt, $_password_hash, $_activation_hash) {
-		$insert_query = $_link->query("INSERT INTO clients (user_name, first_name, last_name, email, zip_code, password_salt, password_hash, activation_hash) VALUES ('".$_user_name."', '".$_first_name."', '".$_last_name."', '".$_email."', '".$_zip_code."', '".$_password_salt."', '".$_password_hash."', '".$_activation_hash."');");
-		if ($insert_query) {
+	private function insertNewClient($_link, $_email, $_first_name, $_last_name, $_zip_code, $_password_salt, $_password_hash, $_activation_hash) {
+		$insert_query = $_link->query("INSERT INTO clients (email, first_name, last_name, zip_code, password_salt, password_hash, activation_hash) VALUES ('".$_email."', '".$_first_name."', '".$_last_name."', '".$_zip_code."', '".$_password_salt."', '".$_password_hash."', '".$_activation_hash."');");
+		if ($_link->affected_rows == 1) {
 			if ($this->sendActivationEmail()) {
 				$this->messages[] = "Your client account has been created successfully. You have been sent an activation email, click the link within that email to activate your account and login.";
 				$this->registered = true;
@@ -156,6 +142,24 @@ class Registrar {
 			$this->errors[] = "Verification Mail NOT successfully sent!";
 			return false;
 
+		}
+	}
+
+	private function activateNewClient() {
+		$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
+		// if no connection errors (= working database connection)
+		if (!$this->link->connect_errno) {
+			$this->email = $this->link->real_escape_string($_GET['email']);
+			$this->activation_hash = $this->link->real_escape_string($_GET['activation_code']);
+			$this->link->query('UPDATE clients SET activation_hash = NULL, activated = 1 WHERE email= "'.$this->email.'" AND activation_hash= "'.$this->activation_hash.'";');
+			if ($this->link->affected_rows > 0) {
+				$this->registered = true;
+				$this->messages[] = "Activation was successful! You can now log in!";
+			} else {
+				$this->errors[] = "Sorry, no such email/activation code combination here...";
+			}
+		} else {
+			$this->errors[] = "Sorry, no database connection.";
 		}
 	}
 }

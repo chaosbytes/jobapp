@@ -13,8 +13,10 @@ $(document).ready(function () {
 				password: $('#register-password').val(),
 				password_confirm: $('#register-passwordconfirm').val()
 			},
+			dataType: 'JSON',
 			url: "./php/register.php",
 			success: function (json) {
+				console.log(json.status);
 				if (json.status) {
 					// if registration is a success display success modal and clear form on modal dismissal
 					displayModal(json.success, json.message, "./js/client-register-modal-code.js");
@@ -22,6 +24,8 @@ $(document).ready(function () {
 					// else display error modal and also clear the form on modal dismissal
 					displayModal(json.error, json.message, "./js/client-register-modal-code.js");
 				}
+			}, error: function(jqXHR, status, responseText){
+				console.log(responseText);
 			}
 		});
 	});
