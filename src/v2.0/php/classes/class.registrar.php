@@ -18,6 +18,7 @@ class Registrar {
 	private $zip_code = "";
 	private $password = "";
 	private $password_hash = "";
+	private $password_salt = "";
 	private $activation_hash = "";
 
 	public $errors = array();
@@ -83,10 +84,12 @@ class Registrar {
 
 				$this->user_name = $this->first_name.".".$this->last_name;
 
-				/* hash the password using scrypt, (scrypt.php is a wrapper for the scrypt hashing method),
+				/* hash the password using CRYPT_SHA512, with a salt created by ,
 				instead of md5 as md5 is no longer a secure method for hashing passwords. for more info see: http://www.php.net/manual/en/faq.passwords.php#faq.passwords.fasthash
 				*/
-				$this->password_hash = Password::hash($this->password);
+				
+				$this->password_salt = mcrypt_create_iv(16, MCRYPT_RAND);
+				$this->password_hash = crypt($this->password, '$6$rounds=10000$'.$salt.'$');
 
 				// create an activation hash for email verification
 				$this->activation_hash = sha1(uniqid(mt_rand(), true));
@@ -105,10 +108,10 @@ class Registrar {
 					if (!$dup_email) {
 						$count = $query_email->num_rows;
 						$this->user_name = $this->user_name.$count;
-						$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_hash, $this->activation_hash);
+						$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_salt, $this->password_hash, $this->activation_hash);
 					}
 				} else {
-					$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_hash, $this->activation_hash);
+					$this->insertNewClient($this->link, $this->user_name, $this->first_name, $this->last_name, $this->email, $this->zip_code, $this->password_salt, $this->password_hash, $this->activation_hash);
 				}
 			} else {
 				$this->errors[] = "Sorry, no database connection.";
@@ -118,8 +121,8 @@ class Registrar {
 		}
 	}
 
-	private function insertNewClient($_link, $_user_name, $_first_name, $_last_name, $_email, $_zip_code, $_password_hash, $_activation_hash) {
-		$insert_query = $_link->query("INSERT INTO clients (user_name, first_name, last_name, email, zip_code, password_hash, activation_hash) VALUES ('".$_user_name."', '".$_first_name."', '".$_last_name."', '".$_email."', '".$_zip_code."', '".$_password_hash."', '".$_activation_hash."');");
+	private function insertNewClient($_link, $_user_name, $_first_name, $_last_name, $_email, $_zip_code, $_password_salt, $_password_hash, $_activation_hash) {
+		$insert_query = $_link->query("INSERT INTO clients (user_name, first_name, last_name, email, zip_code, password_salt, password_hash, activation_hash) VALUES ('".$_user_name."', '".$_first_name."', '".$_last_name."', '".$_email."', '".$_zip_code."', '".$_password_salt."', '".$_password_hash."', '".$_activation_hash."');");
 		if ($insert_query) {
 			if ($this->sendActivationEmail()) {
 				$this->messages[] = "Your client account has been created successfully. You have been sent an activation email, click the link within that email to activate your account and login.";
