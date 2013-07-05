@@ -32,7 +32,7 @@ class Login {
 			} else if ($this->post['admin_login']) {
 				$this->loginAdminWithPost();
 			} else if ($this->post['reset_password']) {
-				$this->sendPasswordResetEmail();
+				$this->requestPasswordReset();
 			} else if (isset($_GET['email']) && isset($_GET['reset_code'])) {
 				$this->verifyResetCode();
 			} else if ($this->post['submit_new_password']) {
@@ -122,36 +122,70 @@ class Login {
 			}
 	}
 
-	public function requestPasswordReset(){
-		
+	public function requestPasswordReset() {
+			$timestamp = time();
+
+			// generate random hash for email password reset verification (40 char string)
+			$this->password_reset_hash = sha1(uniqid(mt_rand(), true));
+
+			// creating a database connection
+			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
+
+			// if no connection errors (= working database connection)
+			if (!$this->link->connect_errno) {
+
+				// TODO: this is not totally clean, as this is just the form provided username
+				$this->email = $this->link->real_escape_string(htmlentities($this->post['email'], ENT_QUOTES));
+				$queryClient = $this->link->query("SELECT id, email FROM clients WHERE email = '".$this->email."';");
+				// if this user exists
+				if ($queryClient->num_rows == 1) {
+					// get result row (as an object)
+					$client = $queryClient->fetch_object();
+					// database query:
+					$this->link->query("UPDATE clients SET password_reset_hash = '".$this->password_reset_hash."', password_reset_timestamp = '".$timestamp."'WHERE email = '".$this->email."';");
+					// check if exactly one row was successfully changed:
+					if ($this->link->affected_rows == 1) {
+						$this->messages[] = "Reset token created successfully.";
+						return true;
+					} else {
+						$this->errors[] = "Could not write token to database."; // maybe say something not that technical.
+					}
+				} else {
+					$this->errors[] = "This username does not exist.";
+				}
+			} else {
+				$this->errors[] = "Database connection problem.";
+			}
+		// return false (this method only returns true when the database entry has been set successfully)
+		return false;
 	}
 
 	private function sendPasswordResetEmail() {
-			$to      = $this->email;
-      $subject = EMAIL_PASSWORDRESET_SUBJECT;
-      
-      $link    = EMAIL_PASSWORDRESET_URL.'?email='.urlencode($this->user_name).'&reset_code='.urlencode($this->user_password_reset_hash);
-      
-      // the link to your password_reset.php, please set this value in config/email_passwordreset.php
-      $body = EMAIL_PASSWORDRESET_CONTENT.' <a href="'.$link.'">'.$link.'</a>';
+		$to      = $this->email;
+		$subject = EMAIL_PASSWORDRESET_SUBJECT;
 
-      // stuff for HTML mails, test this is you feel adventurous ;)
-      $header  = 'MIME-Version: 1.0' . "\r\n";
-      $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-      //$header .= "To: <$to>" . "\r\n";
-      $header .= 'From: '.EMAIL_PASSWORDRESET_FROM."\r\n";
+		$link    = EMAIL_PASSWORDRESET_URL.'?email='.urlencode($this->user_name).'&reset_code='.urlencode($this->user_password_reset_hash);
 
-      if (mail($to, $subject, $body, $header)) {
-          
-          $this->messages[] = "Password reset mail successfully sent!";
-          return true;
-          
-      } else {
-          
-          $this->errors[] = "Password reset mail NOT successfully sent!";
-          return false;
-          
-      }
+		// the link to your password_reset.php, please set this value in config/email_passwordreset.php
+		$body = EMAIL_PASSWORDRESET_CONTENT.' <a href="'.$link.'">'.$link.'</a>';
+
+		// stuff for HTML mails, test this is you feel adventurous ;)
+		$header  = 'MIME-Version: 1.0' . "\r\n";
+		$header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		//$header .= "To: <$to>" . "\r\n";
+		$header .= 'From: '.EMAIL_PASSWORDRESET_FROM."\r\n";
+
+		if (mail($to, $subject, $body, $header)) {
+
+			$this->messages[] = "Password reset mail successfully sent!";
+			return true;
+
+		} else {
+
+			$this->errors[] = "Password reset mail NOT successfully sent!";
+			return false;
+
+		}
 	}
 
 	private function verifyResetCode() {
