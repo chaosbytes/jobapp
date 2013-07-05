@@ -41,25 +41,25 @@ class Registrar {
 	private function registerNewClient() {
 		if (empty($this->post['first_name'])) {
 			$this->errors[] = "First Name Field Empty";
-		} elseif (empty($this->post['last_name'])) {
+		} else if (empty($this->post['last_name'])) {
 			$this->errors[] = "Last Name Field Empty";
-		} elseif (empty($this->post['email'])) {
+		} else if (empty($this->post['email'])) {
 			$this->errors[] = "Email Field Empty";
-		} elseif (strlen($this->post['email']) > 96) {
+		} else if (strlen($this->post['email']) > 96) {
 			$this->errors[] = "Email cannot be longer than 96 characters";
-		} elseif (!filter_var($this->post['email'], FILTER_VALIDATE_EMAIL)) {
+		} else if (!filter_var($this->post['email'], FILTER_VALIDATE_EMAIL)) {
 			$this->errors[] = "Your email address is not in a valid email format";
-		} elseif (empty($this->post['zip_code'])) {
+		} else if (empty($this->post['zip_code'])) {
 			$this->errors[] = "Zip Code Field Empty";
-		} elseif (!preg_match('/(\d{5}([\-]\d{4})?)/', $this->post['zip_code'])) {
+		} else if (!preg_match('/(\d{5}([\-]\d{4})?)/', $this->post['zip_code'])) {
 			$this->errors[] = "Invalid Zip Code Format";
-		} elseif (empty($this->post['password']) || empty($this->post['password_confirm'])) {
+		} else if (empty($this->post['password']) || empty($this->post['password_confirm'])) {
 			$this->errors[] = "Password Field Empty";
-		} elseif ($this->post['password'] !== $this->post['password_confirm']) {
+		} else if ($this->post['password'] !== $this->post['password_confirm']) {
 			$this->errors[] = "Passwords Do Not Match";
-		} elseif (strlen($this->post['password']) < 6) {
+		} else if (strlen($this->post['password']) < 6) {
 			$this->errors[] = "Password must be a minimum length of 6 characters";
-		} elseif (!empty($this->post['first_name'])
+		} else if (!empty($this->post['first_name'])
 			&& !empty($this->post['last_name'])
 			&& !empty($this->post['email'])
 			&& strlen($this->post['email']) <= 96
