@@ -4,10 +4,10 @@ $('#modal-dismiss-button').click(function () {
 	$('#modal-wrapper').remove();
 	$('#modal-bg').remove();
 	// reset all input field values
-	$('#register-fname').val('');
-	$('#register-lname').val('');
-	$('#register-email').val('');
-	$('#register-zipcode').val('');
-	$('#register-password').val('');
-	$('#register-passwordconfirm').val('');
+	$('#first_name').val('');
+	$('#last_name').val('');
+	$('#email').val('');
+	$('#zip_code').val('');
+	$('#password').val('');
+	$('#password_confirm').val('');
 });

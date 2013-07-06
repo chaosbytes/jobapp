@@ -12,7 +12,7 @@
 	src:url(../fonts/Minecraftia.ttf);
 }
 /* admin login button styles */
-#admin-login {
+#admin_login_submit {
 	-moz-border-radius-bottomleft:25px 50px;
 	-moz-border-radius-bottomright:25px 50px;
 	-moz-border-radius-topleft:25px 50px;
@@ -31,11 +31,11 @@
 	position:relative;
 }
 
-#admin-login:active {
+#admin_login_submit:active {
 	background-color:rgba(10,150,245,0.5);
 }
 
-#admin-login:hover {
+#admin_login_submit:hover {
 	background-color:rgba(10,150,245,0.25);
 	border:2px solid rgba(10,150,245,1);
 }
@@ -69,7 +69,7 @@
 	border:2px solid rgba(255,40,55,1);
 }
 /* admin password input field */
-#admin-password {
+#admin_password {
 	-moz-border-radius-bottomleft:25px 50px;
 	-moz-border-radius-bottomright:25px 50px;
 	-moz-border-radius-topleft:0;
@@ -98,7 +98,7 @@
 	font-size:x-small;
 }
 /* admin username input field */
-#admin-username {
+#admin_email {
 	-moz-border-radius-bottomleft:0;
 	-moz-border-radius-bottomright:0;
 	-moz-border-radius-topleft:25px 50px;
@@ -147,7 +147,7 @@
 	width:285px;
 }
 /* login password input field */
-#login-password {
+#client_password {
 	-moz-border-radius-bottomleft:25px 50px;
 	-moz-border-radius-bottomright:25px 50px;
 	-moz-border-radius-topleft:0;
@@ -164,8 +164,8 @@
 	position:relative;
 	width:246px;
 }
-/* login button styles */
-#login-submit {
+/* client login button styles */
+#client_login_submit {
 	-moz-border-radius-bottomleft:25px 50px;
 	-moz-border-radius-bottomright:25px 50px;
 	-moz-border-radius-topleft:25px 50px;
@@ -186,11 +186,11 @@
 	width:200px;
 }
 
-#login-submit:active {
+#client_login_submit:active {
 	background-color:rgba(10,150,245,0.5);
 }
 
-#login-submit:hover {
+#client_login_submit:hover {
 	background-color:rgba(10,150,245,0.25);
 	border:2px solid rgba(10,150,245,1);
 }
@@ -203,7 +203,7 @@
 	width:285px;
 }
 /* login username input field */
-#login-username {
+#client_email {
 	-moz-border-radius-bottomleft:0;
 	-moz-border-radius-bottomright:0;
 	-moz-border-radius-topleft:25px 50px;
@@ -302,7 +302,7 @@
 }
 
 /* register first name field */
-#register-fname {
+#first_name {
 	-moz-border-radius-bottomleft:0;
 	-moz-border-radius-bottomright:0;
 	-moz-border-radius-topleft:25px 50px;
@@ -320,7 +320,7 @@
 	width:300px;
 }
 /* register password confirm element */
-#register-passwordconfirm {
+#password_confirm {
 	-moz-border-radius-bottomleft:25px 50px;
 	-moz-border-radius-bottomright:25px 50px;
 	-moz-border-radius-topleft:0;

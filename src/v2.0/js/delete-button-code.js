@@ -6,14 +6,12 @@ $('.admin-delete-button').click(function() {
 	$.ajax({
 		type: "POST",
 		data: {
-			username: that.attr('id')
+			email: that.attr('id')
 		},
+		dataType: "JSON",
 		url: "./php/admin-delete.php",
-		success: function(data) {
-			//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
-			var json = JSON.stringify(data);
-			json = JSON.parse(json);
-			json = $.parseJSON(json);
+		success: function(json) {
+			console.log(json.status);
 			if (json.status) {
 				// if deletion from db was successful remove the row from table by accessing the grandparent node of 'that' (assigned above) and getting the table row index
 				var i=that[0].parentNode.parentNode.rowIndex;
@@ -25,6 +23,9 @@ $('.admin-delete-button').click(function() {
 			} else if (!json.status) {
 				displayModal(json.error, json.message, "./js/modal-dismiss-code.js");
 			}
+		}, 
+		error: function(jqXHR, status, text){
+			console.log(text);
 		}
 	});
 });

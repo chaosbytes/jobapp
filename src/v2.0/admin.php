@@ -23,9 +23,9 @@
 	    <div id="admin-form">
 	    	<span id="admin-text">Admin Login:</span>
 	    	<div class="spacer"></div>
-	      <input type="text" id="admin-username" placeholder="Username..." class="admin-login-input" required><br/>
-	      <input type="password" id="admin-password" placeholder="Password..." class="admin-login-input" pattern="[a-zA-Z0-9_.-]{8,}" required><br/>
-	      <input type="submit" id="admin-login" class="admin-login-input" value="Login"/>
+	      <input type="text" id="admin_email" placeholder="Username..." class="admin-login-input" required><br/>
+	      <input type="password" id="admin_password" placeholder="Password..." class="admin-login-input" pattern="[a-zA-Z0-9_.-]{8,}" required><br/>
+	      <input type="submit" id="admin_login_submit" class="admin-login-input" value="Login"/>
 	    </div>
     </div>
   </div>

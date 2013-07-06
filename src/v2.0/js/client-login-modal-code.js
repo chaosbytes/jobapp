@@ -5,6 +5,6 @@ $('#modal-dismiss-button').click(function () {
 	$('#modal-wrapper').remove();
 	$('#modal-bg').remove();
 	// clear input field values
-	$('#login-username').val('');
-	$('#login-password').val('');
+	$('#client_email').val('');
+	$('#client_password').val('');
 });

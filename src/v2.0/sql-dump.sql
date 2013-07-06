@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql.jobapp.foursquaregames.com
--- Generation Time: Jul 04, 2013 at 05:04 PM
+-- Generation Time: Jul 05, 2013 at 05:51 PM
 -- Server version: 5.1.56
 -- PHP Version: 5.4.11
 
@@ -75,10 +75,11 @@ USE `jobapp_v2`;
 
 CREATE TABLE IF NOT EXISTS `admins` (
   `id` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) COLLATE utf8_bin NOT NULL,
-  `passwordhash` varchar(50) COLLATE utf8_bin NOT NULL,
+  `email` varchar(50) COLLATE utf8_bin NOT NULL,
+  `password_salt` varchar(16) COLLATE utf8_bin NOT NULL,
+  `password_hash` varchar(123) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 --
@@ -112,5 +113,4 @@ CREATE TABLE IF NOT EXISTS `clients` (
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `email`, `first_name`, `last_name`, `zip_code`, `activated`, `password_salt`, `password_hash`, `activation_hash`, `password_reset_hash`, `password_reset_timestamp`) VALUES
-(022, 'riceje7@gmail.com', 'Joe', 'Rice', '18104', 1, 'PJ6Vq01HfTQNoAmV', '$6$rounds=10000$PJ6Vq01HfTQNoAmV$clr25DygZO6r9sm5H44ZHoVb2tNjD5zHKeCUCRNskjfMZ1Zi5uG1oQLTtRLG7jPC5q/', '', '', '2013-07-04 15:35:59');
+	

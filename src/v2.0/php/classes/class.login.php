@@ -4,50 +4,79 @@
 * Login class to handle all login/out functions
 */
 
+require_once "password.php";
+
 class Login {
 
 	private $link = null;
 	private $id = null;
 	private $email = "";
+	private $password = "";
 	private $password_hash = "";
 	private $logged_in = false;
+	private $logged_out = false;
 	private $password_reset_hash = "";
 	private $post = null;
+
+	private $new_password = "";
+	private $new_password_confirm = "";
+	private $new_password_hash = "";
 
 	public $messages = array();
 	public $errors = array();
 
+	private $password_reset_successful = false;
+	private $reset_token_created = false;
+	private $valid_reset_token = false;
+
+
 	public function __construct($_post) {
-		session_start();
 
 		if ($_post) {
 			$this->post = $_post;
 		}
-		if (isset($_GET['logout'])) {
+		if (isset($_POST['logout'])) {
 			$this->logoutUser();
-		} else if (isset($_SESSION['email']) && ($_SESSION['client_logged_in'] == 1 || $_SESSION['admin_logged_in'] == 1)) {
+		} else if (isset($_POST['autologin'])) {
+				$this->autologin();
+			} else if (isset($_SESSION['email']) && $_SESSION['admin_logged_in'] == 1) {
 				$this->loginWithSession();
 			} else if ($this->post['client_login']) {
 				$this->loginClientWithPost();
 			} else if ($this->post['admin_login']) {
 				$this->loginAdminWithPost();
-			} else if ($this->post['reset_password']) {
+			} else if ($this->post['reset_password_request']) {
 				$this->requestPasswordReset();
 			} else if (isset($_GET['email']) && isset($_GET['reset_code'])) {
 				$this->verifyResetCode();
-			} else if ($this->post['submit_new_password']) {
+			} else if ($this->post['set_new_password']) {
 				$this->setNewPassword();
 			}
 	}
 
+	private function autologin() {
+		session_name("jobapp");
+		session_start();
+		// if username and passwordhash are set in $_SESSION array
+		if (isset($_SESSION['admin_logged_in'])) {
+			$this->loginWithSession();
+		}
+	}
+
 	private function logoutUser() {
+		session_name("jobapp");
+		session_start();
 		$_SESSION = array();
 		session_destroy();
-		$this->loged_in = false;
+		$this->logged_in = false;
+		$this->logged_out = true;
 		$this->messages[] = "You have been logged out.";
 	}
 
 	private function loginWithSession() {
+		session_name("jobapp");
+		session_start();
+		$_SESSION['admin_logged_in'] = 1;
 		$this->logged_in = true;
 		$this->messages[] = "You have been logged in.";
 	}
@@ -57,11 +86,14 @@ class Login {
 			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
 			if (!$this->link->connect_errno) {
 				$this->email = $this->link->real_escape_string($this->post['email']);
-				$checkClient = $this->link->query("SELECT id, email, first_name, last_name, activated, password_salt, password_hash FROM clients WHERE email='".$this->email."';");
+				$this->password = $this->link->real_escape_string($this->post['password']);
+				$checkClient = $this->link->query("SELECT id, email, first_name, last_name, activated, password_hash FROM clients WHERE email='".$this->email."';");
 				if ($checkClient->num_rows == 1) {
 					$client = $checkClient->fetch_object();
-					if ($client->password_hash == crypt($post->password, $client->password_salt)) {
+					if (password_verify($this->password, $client->password_hash)) {
 						if ($client->activated == 1) {
+							session_name("jobapp");
+							session_start();
 							$_SESSION['client_id'] = $client->id;
 							$_SESSION['email'] = $client->email;
 							$_SESSION['first_name'] = $client->first_name;
@@ -95,12 +127,16 @@ class Login {
 			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
 			if (!$this->link->connect_errno) {
 				$this->email = $this->link->real_escape_string($this->post['email']);
-				$checkAdmin = $this->link->query("SELECT id, email, password_salt, password_hash FROM admins WHERE email='".$this->email."';");
+				$this->password = $this->link->real_escape_string($this->post['password']);
+				$checkAdmin = $this->link->query("SELECT id, email, password_hash FROM admins WHERE email='".$this->email."';");
 				if ($checkAdmin->num_rows == 1) {
 					$admin = $checkAdmin->fetch_object();
-					if ($admin->password_hash == crypt($post->password, $admin->password_salt)) {
-						$_SESSION['admin_id'] = $client->id;
-						$_SESSION['email'] = $client->email;
+					if (password_verify($this->password, $admin->password_hash)) {
+						session_name("jobapp");
+						session_set_cookie_params(60*60*24);
+						session_start();
+						$_SESSION['admin_id'] = $admin->id;
+						$_SESSION['email'] = $admin->email;
 						$_SESSION['admin_logged_in'] = 1;
 
 						$this->id = $admin->id;
@@ -123,40 +159,40 @@ class Login {
 	}
 
 	public function requestPasswordReset() {
-			$timestamp = time();
+		$timestamp = time();
 
-			// generate random hash for email password reset verification (40 char string)
-			$this->password_reset_hash = sha1(uniqid(mt_rand(), true));
+		// generate random hash for email password reset verification (40 char string)
+		$this->password_reset_hash = sha1(uniqid(mt_rand(), true));
 
-			// creating a database connection
-			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
+		$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
 
-			// if no connection errors (= working database connection)
-			if (!$this->link->connect_errno) {
+		// if no connection errors (= working database connection)
+		if (!$this->link->connect_errno) {
 
-				// TODO: this is not totally clean, as this is just the form provided username
-				$this->email = $this->link->real_escape_string(htmlentities($this->post['email'], ENT_QUOTES));
-				$queryClient = $this->link->query("SELECT id, email FROM clients WHERE email = '".$this->email."';");
-				// if this user exists
-				if ($queryClient->num_rows == 1) {
-					// get result row (as an object)
-					$client = $queryClient->fetch_object();
-					// database query:
-					$this->link->query("UPDATE clients SET password_reset_hash = '".$this->password_reset_hash."', password_reset_timestamp = '".$timestamp."'WHERE email = '".$this->email."';");
-					// check if exactly one row was successfully changed:
-					if ($this->link->affected_rows == 1) {
+			$this->email = $this->link->real_escape_string(htmlentities($this->post['email'], ENT_QUOTES));
+			$queryClientData = $this->link->query("SELECT id, email FROM clients WHERE email = '".$this->email."';");
+			if ($queryClientData->num_rows == 1) {
+				$client = $queryClientData->fetch_object();
+				$this->link->query("UPDATE clients SET password_reset_hash = '".$this->password_reset_hash."', password_reset_timestamp = '".$timestamp."' WHERE email = '".$this->email."';");
+				if ($this->link->affected_rows == 1) {
+					if ($this-> sendPasswordResetEmail()) {
+						$this->reset_token_created = true;
 						$this->messages[] = "Reset token created successfully.";
 						return true;
 					} else {
-						$this->errors[] = "Could not write token to database."; // maybe say something not that technical.
+						$this->link->query("UPDATE clients SET password_reset_hash = NULL, password_reset_timestamp = NULL WHERE email = '".$this->email."';");
+						$this->errors[] = "There was an error. At this time we can not process your password reset request.";
+						return false;
 					}
 				} else {
-					$this->errors[] = "This username does not exist.";
+					$this->errors[] = "Could not write token to database.";
 				}
 			} else {
-				$this->errors[] = "Database connection problem.";
+				$this->errors[] = "This username does not exist.";
 			}
-		// return false (this method only returns true when the database entry has been set successfully)
+		} else {
+			$this->errors[] = "Database connection problem.";
+		}
 		return false;
 	}
 
@@ -164,15 +200,11 @@ class Login {
 		$to      = $this->email;
 		$subject = EMAIL_PASSWORDRESET_SUBJECT;
 
-		$link    = EMAIL_PASSWORDRESET_URL.'?email='.urlencode($this->user_name).'&reset_code='.urlencode($this->user_password_reset_hash);
-
-		// the link to your password_reset.php, please set this value in config/email_passwordreset.php
+		$link    = EMAIL_PASSWORDRESET_URL.'?email='.urlencode($this->email).'&reset_code='.urlencode($this->password_reset_hash);
 		$body = EMAIL_PASSWORDRESET_CONTENT.' <a href="'.$link.'">'.$link.'</a>';
 
-		// stuff for HTML mails, test this is you feel adventurous ;)
 		$header  = 'MIME-Version: 1.0' . "\r\n";
 		$header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		//$header .= "To: <$to>" . "\r\n";
 		$header .= 'From: '.EMAIL_PASSWORDRESET_FROM."\r\n";
 
 		if (mail($to, $subject, $body, $header)) {
@@ -188,12 +220,75 @@ class Login {
 		}
 	}
 
-	private function verifyResetCode() {
+	public function verifyResetCode() {
+		if (isset($_GET['email']) && isset($_GET['reset_code'])) {
+			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
 
+			if (!$this->link->connect_errno) {
+				$this->email = $this->link->real_escape_string(htmlentities($_GET['email']), ENT_QUOTES);
+				$this->password_reset_hash = $this->link->real_escape_string(htmlentities($_GET['reset_code']), ENT_QUOTES);
+
+				$queryClientData = $this->link->query("SELECT id, password_reset_timestamp FROM clients WHERE email='".$this->email."' AND password_reset_hash='".$this->password_reset_hash."';");
+
+				if ($queryClientData->num_rows == 1) {
+					$client = $queryClientData->fetch_object();
+
+					$timestamp_minus_one_hour = time() - 3600;
+
+					if ($client->password_rest_timestamp > $timestamp_minus_one_hour) {
+						$this->valid_reset_token = true;
+					} else {
+						$this->errors[] = "Reset link is no longer valid. You must use the link within one hour of your request. Please request another reset link.";
+					}
+				} else {
+					$this->errors[] = "User email is invalid.";
+				}
+			} else {
+				$this->errors[] = "No database connection.";
+			}
+		} else {
+			$this->errors[] = "You are attempting to use and invalid reset link.";
+		}
 	}
 
-	private function setNewPassword() {
+	public function setNewPassword() {
+		if (isset($this->post['email']) && isset($this->post['password_reset_hash']) && isset($this->post['new_password']) && isset($this->post['new_password_confirm'])) {
+			$this->link = new mysqli(HOSTNAME, DB_USER, DB_USER_PASS, DATABASE);
+			if (strlen($this->post['new_password']) >= 8) {
+				if ($this->post['new_password'] == $this->post['new_password_confirm']) {
+					if (!$this->link->connect_errno) {
+						$this->email = $this->link->real_escape_string(htmlentities($this->post['email']), ENT_QUOTES);
+						$this->new_password = $this->link->real_escape_string(htmlentities($this->post['new_password']), ENT_QUOTES);
+						$this->new_password_confirm = $this->link->real_escape_string(htmlentities($this->post['new_password_confirm']), ENT_QUOTES);
+						$this->new_password_hash = password_hash($this->new_password, PASSWORD_BCRYPT);
 
+						$this->link->query("UPDATE clients SET password_hash='".$this->new_password_hash."', password_reset_hash = NULL, password_reset_timestamp = NULL WHERE email='".$this->email."' AND password_reset_hash='".$this->password_reset_hash."';");
+						if ($this->link->affected_rows == 1) {
+							$this->password_reset_successful = true;
+							$this->messages[] = "Your password has been successfully changed.";
+						} else {
+							$this->errors[] = "An error occured trying to reset you password.";
+						}
+					} else {
+						$this->errors[] = "No database connection.";
+					}
+				} else {
+					$this->errors[] = "New passwords must match, try again.";
+				}
+			} else {
+				$this->errors[] = "Your new password must be greater than or equal to 8 characters.";
+			}
+		} else {
+			$this->errors[] = "All password reset form fields are required. please try again.";
+		}
+	}
+
+	public function is_logged_in() {
+		return $this->logged_in;
+	}
+
+	public function is_logged_out() {
+		return $this->logged_out;
 	}
 }
 ?>

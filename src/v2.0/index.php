@@ -24,21 +24,21 @@
       <div id="register-form">
       	<span id="registration-text">New Users Register Here:</span>
       	<div class="spacer"></div>
-        <input type="text" placeholder="First Name..." id="register-fname" class="client-register-input" pattern="[a-zA-Z0-9]{3,25}" required><br/>
-        <input type="text" placeholder="Last Name..." id="register-lname" class="client-register-input" pattern="[a-zA-Z0-9]{2,25}" required><br/>
-        <input type="email" placeholder="Email..." id="register-email" class="client-register-input" pattern="^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+" required><br/>
-        <input type="text" placeholder="Zip Code..." id="register-zipcode" class="client-register-input" pattern="(\d{5}([\-]\d{4})?)"required><br/>
-        <input type="password" placeholder="Password..." id="register-password" class="client-register-input" pattern="[a-zA-Z0-9]{8,}" required><br/>
-        <input type="password" placeholder="Confirm Password..." id="register-passwordconfirm" class="client-register-input" pattern="[a-zA-Z0-9]{8,}" required><br/>
+        <input type="text" placeholder="First Name..." id="first_name" class="client-register-input" pattern="[a-zA-Z0-9]{3,25}" required><br/>
+        <input type="text" placeholder="Last Name..." id="last_name" class="client-register-input" pattern="[a-zA-Z0-9]{2,25}" required><br/>
+        <input type="email" placeholder="Email..." id="email" class="client-register-input" pattern="^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+" required autocomplete="off"><br/>
+        <input type="text" placeholder="Zip Code..." id="zip_code" class="client-register-input" pattern="(\d{5}([\-]\d{4})?)"required><br/>
+        <input type="password" placeholder="Password..." id="password" class="client-register-input" pattern="[a-zA-Z0-9]{8,}" required><br/>
+        <input type="password" placeholder="Confirm Password..." id="password_confirm" class="client-register-input" pattern="[a-zA-Z0-9]{8,}" required><br/>
         <input type="submit" id="register-submit" class="client-register-input" value="Submit"><br/>
       </div>
 
       <div id="login-form">
       	<span id="login-text">Returning Users Login Here:</span>
       	<div class="spacer"></div>
-        <input type="text" id="login-username" placeholder="Username..." class="client-login-input" required><br/>
-        <input type="password" id="login-password" placeholder="Password..." class="client-login-input" required><br/>
-        <input type="submit" id="login-submit" class="client-login-input" value="Login"/>
+        <input type="text" id="client_email" placeholder="Username..." class="client-login-input" required><br/>
+        <input type="password" id="client_password" placeholder="Password..." class="client-login-input" required><br/>
+        <input type="submit" id="client_login_submit" class="client-login-input" value="Login"/>
       </div>
     </div>
   </div>
