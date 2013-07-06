@@ -26,7 +26,11 @@ in, because as i was doing this version i kept thinking up good ideas i wanted t
 but they are proving a little more difficult to implement than i thouhgt. Either way i'm including the code that i have for version 2 
 anyways so you can see what I've been up to with that version. 
 
+You can also check out the code on my github: https://github.com/riceje7/jobapp.git
+and a live example at http://jobapp.v1.foursquaregames.com or http://jobapp.v1.foursquaregames.com/admin
+
 hope you like what you see. and I hope to hear from you soon.
 Thanks,
 
 Joe Rice
+
