@@ -146,6 +146,41 @@
 	position:relative;
 	width:285px;
 }
+
+#new_password { 
+	-moz-border-radius-bottomleft:0;
+	-moz-border-radius-bottomright:0;
+	-moz-border-radius-topleft:25px 50px;
+	-moz-border-radius-topright:25px 50px;
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+	border-top-left-radius:25px 50px;
+	border-top-right-radius:25px 50px;
+	display:block;
+	height:30px;
+	margin:0 auto;
+	outline:none;
+	position:relative;
+	width:246px;
+}
+
+#new_password_confirm {
+	-moz-border-radius-bottomleft:25px 50px;
+	-moz-border-radius-bottomright:25px 50px;
+	-moz-border-radius-topleft:0;
+	-moz-border-radius-topright:0;
+	border-bottom-left-radius:25px 50px;
+	border-bottom-right-radius:25px 50px;
+	border-top-left-radius:0;
+	border-top-right-radius:0;
+	display:block;
+	height:30px;
+	margin:0 auto;
+	margin-top:-20px;
+	outline:none;
+	position:relative;
+	width:246px;
+}
 /* login password input field */
 #client_password {
 	-moz-border-radius-bottomleft:25px 50px;
@@ -201,6 +236,74 @@
 	margin:auto;
 	text-align:center;
 	width:285px;
+}
+
+#reset_password_request_submit {
+	-moz-border-radius-bottomleft:25px 50px;
+	-moz-border-radius-bottomright:25px 50px;
+	-moz-border-radius-topleft:25px 50px;
+	-moz-border-radius-topright:25px 50px;
+	background-color:rgba(10,150,245,0.15);
+	border:1px solid rgba(10,150,245,1);
+	border-bottom-left-radius:25px 50px;
+	border-bottom-right-radius:25px 50px;
+	border-top-left-radius:25px 50px;
+	border-top-right-radius:25px 50px;
+	display:block;
+	font-size:xx-small;
+	height:25px	;
+	margin:0 auto;
+	margin-top:5px;
+	outline:none;
+	position:relative;
+	width:125px;
+}
+
+##reset_password_request_submit:active {
+	background-color:rgba(10,150,245,0.5);
+}
+
+##reset_password_request_submit:hover {
+	background-color:rgba(10,150,245,0.25);
+	border:2px solid rgba(10,150,245,1);
+}
+
+#reset_password_submit {
+	-moz-border-radius-bottomleft:25px 50px;
+	-moz-border-radius-bottomright:25px 50px;
+	-moz-border-radius-topleft:25px 50px;
+	-moz-border-radius-topright:25px 50px;
+	background-color:rgba(10,150,245,0.15);
+	border:1px solid rgba(10,150,245,1);
+	border-bottom-left-radius:25px 50px;
+	border-bottom-right-radius:25px 50px;
+	border-top-left-radius:25px 50px;
+	border-top-right-radius:25px 50px;
+	display:block;
+	font-size:xx-small;
+	height:25px	;
+	margin:0 auto;
+	margin-top:5px;
+	outline:none;
+	position:relative;
+	width:125px;
+}
+
+#reset_password_submit:active {
+	background-color:rgba(10,150,245,0.5);
+}
+
+#reset_password_submit:hover {
+	background-color:rgba(10,150,245,0.25);
+	border:2px solid rgba(10,150,245,1);
+}
+/* login prompt text */
+#reset-text {
+	display:block;
+	font-size:9px;
+	margin:auto;
+	text-align:center;
+	width:250px;
 }
 /* login username input field */
 #client_email {

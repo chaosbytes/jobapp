@@ -6,8 +6,6 @@
   <link rel="stylesheet" href="./css/main.css" type="text/css">
   <script src="./js/jquery-2.0.2.js">
 </script>
-<script src="./js/json2.js">
-</script>
   <script src="./js/index.js">
 </script>
  <script src="./js/display-modal.js">
@@ -36,9 +34,11 @@
       <div id="login-form">
       	<span id="login-text">Returning Users Login Here:</span>
       	<div class="spacer"></div>
-        <input type="text" id="client_email" placeholder="Username..." class="client-login-input" required><br/>
+        <input type="text" id="client_email" placeholder="Email Address..." class="client-login-input" required><br/>
         <input type="password" id="client_password" placeholder="Password..." class="client-login-input" required><br/>
         <input type="submit" id="client_login_submit" class="client-login-input" value="Login"/>
+        <input type="submit" id="reset_password_request_submit" class="client-login-input" value="Reset Password"/>
+        <span id="reset-text">To reset your password enter your email address and hit the reset button.</span>
       </div>
     </div>
   </div>

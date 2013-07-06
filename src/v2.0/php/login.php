@@ -7,9 +7,7 @@ require_once "config/password_reset_config.php";
 
 require_once "classes/class.login.php";
 
-
-$login = new Login($_POST);
-
+$login = new Login($_POST, $_GET);
 if ($login->is_logged_in()) {
 	$messages = "";
 	foreach ($login->messages as $message) {
@@ -21,21 +19,39 @@ if ($login->is_logged_in()) {
 	} else if (isset($_SESSION['client_logged_in'])) {
 			$user_type="Client";
 		}
-	$json = '{"status": true, "success":"'.$user_type.' Login Successful", "message":"'.$messages.'"}';
-	echo $json;
-} else if ($login->is_logged_out()) {
+	echo '{"status": true, "success":"'.$user_type.' Login Successful", "message":"'.$messages.'"}';
+} else if ($login->is_reset_token_created()) {
 		$messages = "";
-	foreach ($login->messages as $message) {
-		$messages = $messages.$message."<br/>";
-	}
-		$json = '{"status": true, "success":"Logout Successful", "message":"'.$messages.'"}';
-		echo $json;
-	} else if (!$login->is_logged_in()) {
+		foreach ($login->messages as $message) {
+			$messages = $messages.$message."<br/>";
+		}
+		echo '{"status": true, "success":"Reset Request Successful", "message":"'.$messages.'"}';
+	} else if ($login->is_valid_reset_token()) {
+		$messages = "";
+		foreach ($login->messages as $message) {
+			$messages = $messages.$message."<br/>";
+		}
+		session_name("jobapp");
+		session_start();
+		$_SESSION["response"] = '{"status": true, "success":"Reset Token Validated", "message":"'.$messages.'"}';
+		header('Location: http://jobapp.v2.foursquaregames.com/passwordreset') ;
+	} else if ($_POST["reset_password_request"] && !$login->is_reset_token_created()) {
 		$errors = "";
 		foreach ($login->errors as $error) {
 			$errors = $errors.$error."<br/>";
 		}
-		$json = "{'status': false, 'error':'Login Error', 'message':".$errors."}";
-		echo $json;
+		echo "{'status': false, 'error':'Password Reset Request Failed', 'message':".$errors."}";
+	} else if ($login->is_logged_out()) {
+		$messages = "";
+		foreach ($login->messages as $message) {
+			$messages = $messages.$message."<br/>";
+		}
+		echo '{"status": true, "success":"Logout Successful", "message":"'.$messages.'"}';
+	} else if (($_POST['client_login'] || $_POST['admin_login']) &&!$login->is_logged_in()) {
+		$errors = "";
+		foreach ($login->errors as $error) {
+			$errors = $errors.$error."<br/>";
+		}
+		echo "{'status': false, 'error':'Login Error', 'message':".$errors."}";
 	}
 ?> 

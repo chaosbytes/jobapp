@@ -17,7 +17,6 @@ $(document).ready(function() {
 			dataType: 'JSON',
 			url: "./php/register.php",
 			success: function(json) {
-				console.log(json.status);
 				if (json.status) {
 					// if registration is a success display success modal and clear form on modal dismissal
 					displayModal(json.success, json.message, "./js/client-register-modal-code.js");
@@ -51,6 +50,55 @@ $(document).ready(function() {
 					$.get("./client-panel.html", function(html) {
 						$("#container").html(html);
 					});
+				} else if (!json.status) {
+					// else display error modal
+					displayModal(json.error, json.message, "./js/client-login-modal-code.js");
+				}
+			}
+		});
+	});
+	
+	// click handler for #reset_password_request_submit button in client panel
+	$('#reset_password_request_submit').click(function() {
+		// send POST request to login.php to authenticate client credentials
+		$.ajax({
+			type: "POST",
+			data: {
+				reset_password_request: true,
+				email: $('#client_email').val()
+			},
+			dataType: 'JSON',
+			url: "./php/login.php",
+			success: function(json) {
+				if (json.status) {
+					// if login is successful display success modal and populate #container with the html from client-panel.html
+					displayModal(json.success, json.message, "./js/client-login-modal-code.js");
+				} else if (!json.status) {
+					// else display error modal
+					displayModal(json.error, json.message, "./js/client-login-modal-code.js");
+				}
+			}
+		});
+	});
+	
+	// click handler for #reset_password_submit button in client panel
+	$('#reset_password_submit').click(function() {
+		// send POST request to login.php to authenticate client credentials
+		$.ajax({
+			type: "POST",
+			data: {
+				set_new_password: true,
+				new_password: $('#new_password').val(),
+				new_password_confirm: $('#new_password_confirm').val(),
+				email: $('#email').val(),
+				password_hash: $('#password_hash').val()
+			},
+			dataType: 'JSON',
+			url: "./php/login.php",
+			success: function(json) {
+				if (json.status) {
+					// if login is successful display success modal and populate #container with the html from client-panel.html
+					displayModal(json.success, json.message, "./js/client-login-modal-code.js");
 				} else if (!json.status) {
 					// else display error modal
 					displayModal(json.error, json.message, "./js/client-login-modal-code.js");
