@@ -41,7 +41,7 @@ function insertNewUser($_username, $_fname, $_lname, $_email, $_zipcode, $_passw
 			// setup sql statement
 			$sql = "INSERT INTO clients (username, fname, lname, email, zipcode, passwordhash) VALUES ('".$_username."', '".$fname."', '".$lname."', '".$email."', '".$zipcode."', '".$_passwordhash."');";
 			// query mysql
-			$result = $link->query($sql);
+			$link->query($sql);
 			// if only 1 row was affected, user was inserted
 			if ($link->affected_rows == 1) {
 				// echo success response and kill script
