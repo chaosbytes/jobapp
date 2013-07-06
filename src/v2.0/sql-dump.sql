@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql.jobapp.foursquaregames.com
--- Generation Time: Jul 05, 2013 at 05:51 PM
+-- Generation Time: Jul 05, 2013 at 09:07 PM
 -- Server version: 5.1.56
 -- PHP Version: 5.4.11
 
@@ -76,16 +76,17 @@ USE `jobapp_v2`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `id` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `email` varchar(50) COLLATE utf8_bin NOT NULL,
-  `password_salt` varchar(16) COLLATE utf8_bin NOT NULL,
   `password_hash` varchar(123) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `admins`
 --
 
+INSERT INTO `admins` (`id`, `email`, `password_hash`) VALUES
+(001, 'admin@jobapp.com', '$2y$10$3Xi6UdlXR6ImXMOvJPyY/OyUEIY3xAA9l8oqppRUnglQif4LroBi.');
 
 -- --------------------------------------------------------
 
@@ -100,17 +101,15 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `last_name` varchar(25) COLLATE utf8_bin NOT NULL,
   `zip_code` varchar(10) COLLATE utf8_bin NOT NULL,
   `activated` tinyint(1) NOT NULL DEFAULT '0',
-  `password_salt` varchar(16) COLLATE utf8_bin NOT NULL,
-  `password_hash` varchar(100) COLLATE utf8_bin NOT NULL,
+  `password_hash` varchar(255) COLLATE utf8_bin NOT NULL,
   `activation_hash` varchar(40) COLLATE utf8_bin NOT NULL,
   `password_reset_hash` varchar(40) COLLATE utf8_bin NOT NULL,
-  `password_reset_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `password_reset_timestamp` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=40 ;
 
 --
 -- Dumping data for table `clients`
 --
 
-	
