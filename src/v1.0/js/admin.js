@@ -8,11 +8,7 @@ $(document).ready(function() {
 	$.ajax({
 		type: "POST",
 		url: "./php/autologin.php",
-		success: function(data) {
-			//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
-			var json = JSON.stringify(data);
-			json = JSON.parse(json);
-			json = $.parseJSON(json);
+		success: function(json) {
 			if (json.status) {
 				// if there has been an admin logged in in the past 24 hours (as set by the cookie) populate the panel with the client data table contained in admin-panel.html
 				$.post("./admin-panel.html", function(html) {
@@ -47,12 +43,9 @@ $(document).ready(function() {
 				username: $('#admin-username').val(),
 				password: $('#admin-password').val()
 			},
+			dataType: "JSON",
 			url: "./php/admin-login.php",
-			success: function(data) {
-				//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
-				var json = JSON.stringify(data);
-				json = JSON.parse(json);
-				json = jQuery.parseJSON(json);
+			success: function(json) {
 				if (json.status) {
 					// if login was a success display success modal
 					displayModal(json.success, json.message, "./js/modal-dismiss-code.js");

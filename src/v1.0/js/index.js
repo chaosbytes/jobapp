@@ -13,12 +13,9 @@ $(document).ready(function () {
 				password: $('#register-password').val(),
 				passwordconfirm: $('#register-passwordconfirm').val()
 			},
+			dataType: "JSON",
 			url: "./php/register.php",
-			success: function (data) {
-			//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
-				var json = JSON.stringify(data);
-				json = JSON.parse(json);
-				json = $.parseJSON(json);
+			success: function (json) {
 				if (json.status) {
 					// if registration is a success display success modal and clear form on modal dismissal
 					displayModal(json.success, json.message, "./js/client-register-modal-code.js");
@@ -40,12 +37,9 @@ $(document).ready(function () {
 				username: $('#login-username').val(),
 				password: $('#login-password').val()
 			},
+			dataType: "JSON",
 			url: "./php/client-login.php",
-			success: function (data) {
-			//data was coming back with invisible characters even after rewriting the php scripts so to overcome this issue I had to use JSON2 to stringify and parse the response into JSON then use jQuery to parse the JSON into a javascript object for use.
-				var json = JSON.stringify(data);
-				json = JSON.parse(json);
-				json = $.parseJSON(json);
+			success: function (json) {
 				if (json.status) {
 					// if login is successful display success modal and populate #container with the html from client-panel.html
 					displayModal(json.success, json.message, "./js/client-login-modal-code.js");

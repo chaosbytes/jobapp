@@ -6,7 +6,7 @@ function connect() {
 	// if there was an error
 	if ($link->connect_errno) {
 		//echo error response
-		return json_encode(array('status' => false, 'error' => $link->error));
+		return "{'status': false, 'error': ".$link->error."}";
 	} else {
 		// else return the mysqli link
 		return $link;

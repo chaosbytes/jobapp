@@ -7,7 +7,7 @@ $link = connect();
 // if link has no valid connection
 if (!$link->ping()) {
 	//echo an error response
-	echo json_encode(array("status" => false, "error" => $link->error));
+	echo '{"status": false, "error": '.$link->error.'}';
 } else if ($link) {
 		// else if link is valid
 		// setup sql statement

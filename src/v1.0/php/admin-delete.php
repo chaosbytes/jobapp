@@ -6,7 +6,7 @@ require "connect.php";
 $link = connect();
 // if the link has no connection echo an error response
 if (!$link->ping()) {
-	echo json_encode(array("status" => false, "error" => $link->error));
+	echo '{"status": false, "error": '.$link->error.'}';
 } else if ($link) {
 	//else if the link is valid check if the username variable is in $_POST array
 		if (isset($_POST['username'])) {
@@ -17,10 +17,10 @@ if (!$link->ping()) {
 			if ($link->query($sql)) {
 				// if there was 1 row affected by the query echo success response
 				if($link->affected_rows == 1){
-					echo json_encode(array("status"=> true, "success"=>"User Deleted", "message"=>"The user ".$username." has been deleted from the system."));
+					echo '{"status": true, "success":"User Deleted", "message":"The user '.$username.' has been deleted from the system."}';
 				} else {
 					// else echo and error response
-					echo json_encode(array("status"=> false, "error"=>"No User Deleted", "message"=>"The user you tried to delete was not in the system, or there was an error."));
+					echo '{"status": false, "error":"No User Deleted", "message":"The user you tried to delete was not in the system, or there was an error."}';
 				}
 			}
 		}

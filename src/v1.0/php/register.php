@@ -19,7 +19,7 @@ if (isset($_POST['register']) && $_POST["register"]) {
 		insertNewUser($username, $fname, $lname, $email, $zipcode, $passwordhash);
 	} else {
 	 	// else if passwords don't match echo error response
-		echo json_encode(array("status"=> false, "error"=> "Password Mismatch", "message"=> "Passwords Do Not Match, Please Try Again."));
+		echo '{"status": false, "error": "Password Mismatch", "message": "Passwords Do Not Match, Please Try Again."}';
 	}
 }
 // insertNewUser() inserts a user into the the clients table in the db
@@ -27,10 +27,7 @@ function insertNewUser($_username, $_fname, $_lname, $_email, $_zipcode, $_passw
 	// open a link
 	$link = connect();
 	// if link has no valid connection
-	if (!$link->ping()) {
-		// echo error response
-		echo json_encode(array("status"=>false, "error"=>json_decode($link)->error));
-	} else if ($link) {
+	if ($link) {
 			// else if link is valid
 			
 			// setup variables that are escaped to protect against sql injection
@@ -45,8 +42,7 @@ function insertNewUser($_username, $_fname, $_lname, $_email, $_zipcode, $_passw
 			// if only 1 row was affected, user was inserted
 			if ($link->affected_rows == 1) {
 				// echo success response and kill script
-				echo json_encode(array("status"=>true, "success"=>"Registration Successful", "message"=> "You have successfully registered with our system. You may now use the login form to login to the system.<br/>To log into our system your USERNAME will be:<br/><h3 class='modal'>".$_username."</h3>"));
-				die;
+				echo '{"status":true, "success":"Registration Successful", "message": "You have successfully registered with our system. You may now use the login form to login to the system.<br/>To log into our system your USERNAME will be:<br/><h3 class=modal>'.$_username.'</h3>"}';
 			} else {
 				//else if there is already that username in the table
 				// setup sql statement to check email address duplicate
@@ -61,7 +57,7 @@ function insertNewUser($_username, $_fname, $_lname, $_email, $_zipcode, $_passw
 				}
 				// if bool is true echo error response
 				if ($duplicateEmail) {
-					echo json_encode(array("status"=> false, "error"=>"Duplicate Entry", "message"=> "You have already registered with our system, please use the login form."));
+					echo '{"status": false, "error":"Duplicate Entry", "message": "You have already registered with our system, please use the login form."}';
 				} else {
 					//else get count of matching emails and append that number to the username and try insertion again
 					$count = $results->num_rows;

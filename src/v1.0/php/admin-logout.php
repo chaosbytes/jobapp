@@ -18,6 +18,6 @@ if (isset($_POST['logout']) && $_POST['logout']) {
     session_regenerate_id(true);
 	}
 	//echo success response
-	echo json_encode(array("status"=> true, "success"=>"Admin Logged Out", "message"=>"You have been successfully logged out."));
+	echo '{"status": true, "success":"Admin Logged Out", "message":"You have been successfully logged out."}';
 }
 ?>

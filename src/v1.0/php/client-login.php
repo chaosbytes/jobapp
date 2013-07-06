@@ -9,7 +9,7 @@ if (isset($_POST['login']) && $_POST['login']) {
 	// if $link has no valid connection
 	if (!$link->ping()) {
 		// echo error response
-		echo json_encode(array("status" => false, "error" => $link->error));
+		echo '{"status": false, "error": '.$link->error.'}';
 	} else if ($link) {
 			// else if there is a valid link 
 			// assign $useraname and $passwordhash with real_escaped data from $_POST array (username and passwordhash respectively) and hash password with md5()
@@ -25,12 +25,12 @@ if (isset($_POST['login']) && $_POST['login']) {
 					session_name("jobappclient");
 					session_start();
 					// and echo a success response, close the link and kill the script
-					echo json_encode(array("status"=>true, "success"=>"Login Success", "message"=>"You Have Been Logged In Successfully."));
+					echo '{"status":true, "success":"Login Success", "message":"You Have Been Logged In Successfully."}';
 					$link->close();
 					die;
 				} else {
 					// else echo an error response, close the link and kill the script
-					echo json_encode(array("status" => false, "error"=> "Username or Password Incorrect", "message" => "The username or password you supplied was not valid. Please try again."));
+					echo '{"status": false, "error": "Username or Password Incorrect", "message": "The username or password you supplied was not valid. Please try again."}';
 					$link->close();
 					die;
 				}
